@@ -1,5 +1,7 @@
-package com.mykytam.courseapi.topic;
+package com.mykytam.courseapi.controllers;
 
+import com.mykytam.courseapi.models.Topic;
+import com.mykytam.courseapi.services.TopicService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;

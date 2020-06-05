@@ -1,5 +1,6 @@
-package com.mykytam.courseapi.course;
+package com.mykytam.courseapi.repositories;
 
+import com.mykytam.courseapi.models.Course;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;

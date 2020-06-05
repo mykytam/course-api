@@ -1,5 +1,7 @@
-package com.mykytam.courseapi.course;
+package com.mykytam.courseapi.services;
 
+import com.mykytam.courseapi.models.Course;
+import com.mykytam.courseapi.repositories.CourseRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
