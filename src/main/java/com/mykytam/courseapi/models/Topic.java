@@ -1,25 +1,22 @@
-package com.mykytam.courseapi.course;
+package com.mykytam.courseapi.models;
 
-import com.mykytam.courseapi.topic.Topic;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-public class Course {
+public class Topic {
+
     @Id
     private String id;
 
     private String name;
     private String description;
 
-    @ManyToOne
-    private Topic topic;
 }
