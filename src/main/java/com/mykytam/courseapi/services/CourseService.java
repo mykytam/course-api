@@ -4,7 +4,6 @@ import com.mykytam.courseapi.models.Course;
 import com.mykytam.courseapi.repositories.CourseRepository;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -17,7 +16,7 @@ public class CourseService {
     }
 
     public List<Course> getAllCourses(String topicId) {
-        return new ArrayList<>(courseRepository.findByTopicId(topicId));
+        return courseRepository.findByTopicId(topicId);
     }
 
     public Course getCourse(String id) {

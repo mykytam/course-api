@@ -4,7 +4,6 @@ import com.mykytam.courseapi.models.Topic;
 import com.mykytam.courseapi.repositories.TopicRepository;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -17,7 +16,7 @@ public class TopicService {
     }
 
     public List<Topic> getAllTopics() {
-        return new ArrayList<>(topicRepository.findAll());
+        return topicRepository.findAll();
     }
 
     public Topic getTopic(String id) {
