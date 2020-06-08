@@ -1,5 +1,6 @@
 package com.mykytam.courseapi.controllers;
 
+import com.mykytam.courseapi.dto.CourseCreateDto;
 import com.mykytam.courseapi.models.Course;
 import com.mykytam.courseapi.models.Topic;
 import com.mykytam.courseapi.services.CourseService;
@@ -30,7 +31,7 @@ public class CourseController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public void addCourse(@RequestBody Course course, @PathVariable String topicId) {
+    public void addCourse(@RequestBody CourseCreateDto course, @PathVariable String topicId) {
         course.setTopic(new Topic(topicId, "", ""));
         courseService.addCourse(course);
     }

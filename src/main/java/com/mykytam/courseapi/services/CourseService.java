@@ -1,7 +1,9 @@
 package com.mykytam.courseapi.services;
 
+import com.mykytam.courseapi.dto.CourseCreateDto;
 import com.mykytam.courseapi.models.Course;
 import com.mykytam.courseapi.repositories.CourseRepository;
+import org.springframework.core.convert.ConversionService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -10,9 +12,11 @@ import java.util.List;
 public class CourseService {
 
     private final CourseRepository courseRepository;
+    private final ConversionService conversionService;
 
-    public CourseService(CourseRepository courseRepository) {
+    public CourseService(CourseRepository courseRepository, ConversionService conversionService) {
         this.courseRepository = courseRepository;
+        this.conversionService = conversionService;
     }
 
     public List<Course> getAllCourses(String topicId) {
@@ -23,7 +27,8 @@ public class CourseService {
         return courseRepository.findById(id).orElse(null);
     }
 
-    public void addCourse(Course course) {
+    public void addCourse(CourseCreateDto courseDto) {
+        Course course = conversionService.convert(courseDto, Course.class);
         courseRepository.save(course);
     }
 

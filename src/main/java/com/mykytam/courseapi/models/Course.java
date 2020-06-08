@@ -1,6 +1,7 @@
 package com.mykytam.courseapi.models;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -11,6 +12,7 @@ import javax.persistence.ManyToOne;
 import java.util.List;
 
 @Data
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
@@ -26,5 +28,5 @@ public class Course {
     private Topic topic;
 
     @ManyToMany
-    private List<Student> student;
+    private List<Student> students;
 }
