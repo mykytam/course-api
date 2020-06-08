@@ -23,7 +23,7 @@ public class TopicController {
     }
 
     @GetMapping("{id}")
-    public Topic getTopic(@PathVariable String id) {
+    public Topic getTopic(@PathVariable Integer id) {
         return topicService.getTopic(id);
     }
 
@@ -40,7 +40,7 @@ public class TopicController {
 
     @DeleteMapping("{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deleteTopic(@PathVariable String id) {
+    public void deleteTopic(@PathVariable Integer id) {
         topicService.deleteTopic(id);
     }
 }

@@ -14,9 +14,12 @@ import javax.persistence.Id;
 public class Topic {
 
     @Id
-    private String id;
+    private Integer id;
 
     private String name;
     private String description;
 
+    public Topic(Integer id) {
+        this.id = id;
+    }
 }

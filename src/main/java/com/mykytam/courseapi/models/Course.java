@@ -19,7 +19,7 @@ import java.util.List;
 public class Course {
 
     @Id
-    private String id;
+    private Integer id;
 
     private String name;
     private String description;

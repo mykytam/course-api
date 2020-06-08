@@ -14,7 +14,6 @@ public class CreateCourseDtoToCourseConverter implements Converter<CourseCreateD
                 .id(source.getId())
                 .name(source.getName())
                 .description(source.getDescription())
-                .topic(source.getTopic())
                 .build();
     }
 }

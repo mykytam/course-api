@@ -16,7 +16,7 @@ import java.util.List;
 public class Student {
 
     @Id
-    private int id;
+    private Integer id;
 
     private String name;
     private String surname;

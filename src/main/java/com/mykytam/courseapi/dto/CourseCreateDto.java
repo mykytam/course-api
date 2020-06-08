@@ -1,27 +1,30 @@
 package com.mykytam.courseapi.dto;
 
-import com.mykytam.courseapi.models.Topic;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class CourseCreateDto {
 
-    @NotEmpty
-    private String id;
+    @NotNull
+    @Min(1)
+    private Integer id;
 
-    @NotEmpty
+    @NotBlank
     private String name;
 
-    @NotEmpty
+    @NotBlank
     private String description;
 
-    @NotEmpty
-    private Topic topic;
+    @NotNull
+    @Min(1)
+    private Integer topicId;
 
 }
