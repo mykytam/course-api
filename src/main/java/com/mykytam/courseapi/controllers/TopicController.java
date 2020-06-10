@@ -1,10 +1,12 @@
 package com.mykytam.courseapi.controllers;
 
+import com.mykytam.courseapi.dto.TopicCreateDto;
 import com.mykytam.courseapi.models.Topic;
 import com.mykytam.courseapi.services.TopicService;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -29,7 +31,7 @@ public class TopicController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public void addTopic(@RequestBody Topic topic) {
+    public void addTopic(@RequestBody @Valid TopicCreateDto topic) {
         topicService.addTopic(topic);
     }
 
