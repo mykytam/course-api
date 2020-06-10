@@ -1,6 +1,7 @@
 package com.mykytam.courseapi.controllers;
 
 import com.mykytam.courseapi.dto.StudentCreateDto;
+import com.mykytam.courseapi.dto.StudentResponseDto;
 import com.mykytam.courseapi.models.Student;
 import com.mykytam.courseapi.services.StudentService;
 import org.springframework.http.HttpStatus;
@@ -20,12 +21,12 @@ public class StudentController {
     }
 
     @GetMapping
-    public List<Student> getAllStudents() {
+    public List<StudentResponseDto> getAllStudents() {
         return studentService.getAllStudents();
     }
 
     @GetMapping("{id}")
-    public Student getStudent(@PathVariable Integer id) {
+    public StudentResponseDto getStudent(@PathVariable Integer id) {
         return studentService.getStudent(id);
     }
 

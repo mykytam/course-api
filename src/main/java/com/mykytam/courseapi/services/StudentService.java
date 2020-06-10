@@ -1,6 +1,7 @@
 package com.mykytam.courseapi.services;
 
 import com.mykytam.courseapi.dto.StudentCreateDto;
+import com.mykytam.courseapi.dto.StudentResponseDto;
 import com.mykytam.courseapi.models.Course;
 import com.mykytam.courseapi.models.Student;
 import com.mykytam.courseapi.repositories.CourseRepository;
@@ -10,6 +11,7 @@ import org.springframework.core.convert.ConversionService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -19,12 +21,16 @@ public class StudentService {
     private final ConversionService conversionService;
     private final CourseRepository courseRepository;
 
-    public List<Student> getAllStudents() {
-        return studentRepository.findAll();
+    public List<StudentResponseDto> getAllStudents() {
+        return studentRepository.findAll()
+                .stream()
+                .map(student -> conversionService.convert(student, StudentResponseDto.class))
+                .collect(Collectors.toList());
     }
 
-    public Student getStudent(Integer id) {
-        return studentRepository.findById(id).orElseThrow();
+    public StudentResponseDto getStudent(Integer id) {
+        Student student = studentRepository.findById(id).orElseThrow();
+        return conversionService.convert(student, StudentResponseDto.class);
     }
 
     public void addStudent(StudentCreateDto studentDto) {

@@ -9,8 +9,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.core.convert.ConversionService;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -21,15 +21,10 @@ public class CourseService {
     private final TopicRepository topicRepository;
 
     public List<CourseResponseDto> getAllCourses() {
-        List<Course> courses = courseRepository.findAll();
-        List<CourseResponseDto> response = new ArrayList<>();
-
-        for (Course course : courses) {
-            CourseResponseDto responseDto = conversionService.convert(course, CourseResponseDto.class);
-            response.add(responseDto);
-        }
-
-        return response;
+        return courseRepository.findAll()
+                .stream()
+                .map(course -> conversionService.convert(course, CourseResponseDto.class))
+                .collect(Collectors.toList());
     }
 
     public CourseResponseDto getCourse(Integer id) {
