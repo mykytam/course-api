@@ -1,19 +1,20 @@
 package com.mykytam.courseapi.services;
 
+import com.mykytam.courseapi.dto.StudentCreateDto;
 import com.mykytam.courseapi.models.Student;
 import com.mykytam.courseapi.repositories.StudentRepository;
+import lombok.RequiredArgsConstructor;
+import org.springframework.core.convert.ConversionService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class StudentService {
 
     private final StudentRepository studentRepository;
-
-    public StudentService(StudentRepository studentRepository) {
-        this.studentRepository = studentRepository;
-    }
+    private final ConversionService conversionService;
 
     public List<Student> getAllStudents() {
         return studentRepository.findAll();
@@ -23,7 +24,13 @@ public class StudentService {
         return studentRepository.findById(id).orElse(null);
     }
 
-    public void addStudent(Student student) {
+    public void addStudent(StudentCreateDto studentDto) {
+
+        if (studentRepository.existsById(studentDto.getId())) {
+            throw new RuntimeException();
+        }
+
+        Student student = conversionService.convert(studentDto, Student.class);
         studentRepository.save(student);
     }
 

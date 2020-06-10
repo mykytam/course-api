@@ -18,6 +18,10 @@ import java.util.List;
 @Entity
 public class Course {
 
+    public Course(Integer id) {
+        this.id = id;
+    }
+
     @Id
     private Integer id;
 

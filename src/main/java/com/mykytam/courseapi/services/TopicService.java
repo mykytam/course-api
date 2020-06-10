@@ -3,6 +3,7 @@ package com.mykytam.courseapi.services;
 import com.mykytam.courseapi.dto.TopicCreateDto;
 import com.mykytam.courseapi.models.Topic;
 import com.mykytam.courseapi.repositories.TopicRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.core.convert.ConversionService;
 import org.springframework.stereotype.Service;
 
@@ -10,15 +11,11 @@ import java.util.List;
 
 
 @Service
+@RequiredArgsConstructor
 public class TopicService {
 
     private final TopicRepository topicRepository;
     private final ConversionService conversionService;
-
-    public TopicService(TopicRepository topicRepository, ConversionService conversionService) {
-        this.topicRepository = topicRepository;
-        this.conversionService = conversionService;
-    }
 
     public List<Topic> getAllTopics() {
         return topicRepository.findAll();

@@ -1,10 +1,12 @@
 package com.mykytam.courseapi.controllers;
 
+import com.mykytam.courseapi.dto.StudentCreateDto;
 import com.mykytam.courseapi.models.Student;
 import com.mykytam.courseapi.services.StudentService;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RequestMapping("students")
@@ -29,7 +31,7 @@ public class StudentController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public void addStudent(@RequestBody Student student) {
+    public void addStudent(@RequestBody @Valid StudentCreateDto student) {
         studentService.addStudent(student);
     }
 
