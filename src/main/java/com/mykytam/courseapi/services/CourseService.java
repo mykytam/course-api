@@ -33,7 +33,7 @@ public class CourseService {
     }
 
     public CourseResponseDto getCourse(Integer id) {
-        Course course = courseRepository.findById(id).orElse(null);
+        Course course = courseRepository.findById(id).orElseThrow();
         return conversionService.convert(course, CourseResponseDto.class);
     }
 

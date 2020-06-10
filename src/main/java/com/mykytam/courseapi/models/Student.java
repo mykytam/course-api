@@ -5,9 +5,11 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -23,7 +25,17 @@ public class Student {
     private String name;
     private String surname;
 
-    @ManyToMany
-    private List<Course> course;
+    @ManyToMany(cascade = {
+            CascadeType.PERSIST,
+            CascadeType.MERGE
+    })
+
+    @Builder.Default
+    private List<Course> courses = new ArrayList<>();
+
+    public void addCourse(Course course) {
+        courses.add(course);
+        course.getStudents().add(this);
+    }
 
 }

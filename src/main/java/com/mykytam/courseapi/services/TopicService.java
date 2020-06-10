@@ -22,7 +22,7 @@ public class TopicService {
     }
 
     public Topic getTopic(Integer id) {
-        return topicRepository.findById(id).orElse(null);
+        return topicRepository.findById(id).orElseThrow();
     }
 
     public void addTopic(TopicCreateDto topicDto) {
