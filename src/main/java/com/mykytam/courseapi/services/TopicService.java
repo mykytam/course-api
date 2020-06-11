@@ -26,10 +26,6 @@ public class TopicService {
     }
 
     public void addTopic(TopicCreateDto topicDto) {
-        if (topicRepository.existsById(topicDto.getId())) {
-            throw new RuntimeException();
-        }
-
         Topic topic = conversionService.convert(topicDto, Topic.class);
         topicRepository.save(topic);
     }

@@ -12,7 +12,6 @@ public class CreateDtoToStudentConverter implements Converter<StudentCreateDto, 
     @Override
     public Student convert(StudentCreateDto source) {
         return Student.builder()
-                .id(source.getId())
                 .name(source.getName())
                 .surname(source.getSurname())
                 .build();

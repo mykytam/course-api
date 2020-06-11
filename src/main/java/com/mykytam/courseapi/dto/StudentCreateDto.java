@@ -13,10 +13,6 @@ import javax.validation.constraints.NotNull;
 @AllArgsConstructor
 public class StudentCreateDto {
 
-    @NotNull
-    @Min(1)
-    private Integer id;
-
     @NotBlank
     private String name;
 

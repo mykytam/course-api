@@ -3,6 +3,7 @@ package com.mykytam.courseapi.controllers;
 import com.mykytam.courseapi.dto.TopicCreateDto;
 import com.mykytam.courseapi.models.Topic;
 import com.mykytam.courseapi.services.TopicService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -11,13 +12,10 @@ import java.util.List;
 
 @RestController
 @RequestMapping("topics")
+@RequiredArgsConstructor
 public class TopicController {
 
     private final TopicService topicService;
-
-    public TopicController(TopicService topicService) {
-        this.topicService = topicService;
-    }
 
     @GetMapping
     public List<Topic> getAllTopics() {

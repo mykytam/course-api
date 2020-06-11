@@ -12,7 +12,6 @@ public class CreateDtoToCourseConverter implements Converter<CourseCreateDto, Co
     @Override
     public Course convert(CourseCreateDto source) {
         return Course.builder()
-                .id(source.getId())
                 .name(source.getName())
                 .description(source.getDescription())
                 .topic(new Topic(source.getTopicId()))

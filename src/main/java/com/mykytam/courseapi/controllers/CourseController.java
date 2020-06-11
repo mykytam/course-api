@@ -4,6 +4,7 @@ import com.mykytam.courseapi.dto.CourseCreateDto;
 import com.mykytam.courseapi.dto.CourseResponseDto;
 import com.mykytam.courseapi.models.Course;
 import com.mykytam.courseapi.services.CourseService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -12,13 +13,10 @@ import java.util.List;
 
 @RequestMapping("courses")
 @RestController
+@RequiredArgsConstructor
 public class CourseController {
 
     private final CourseService courseService;
-
-    public CourseController(CourseService courseService) {
-        this.courseService = courseService;
-    }
 
     @GetMapping
     public List<CourseResponseDto> getAllCourses() {

@@ -11,7 +11,6 @@ public class CreateDtoToTopicConverter implements Converter<TopicCreateDto, Topi
     @Override
     public Topic convert(TopicCreateDto source) {
         return Topic.builder()
-                .id(source.getId())
                 .name(source.getName())
                 .description(source.getDescription())
                 .build();
