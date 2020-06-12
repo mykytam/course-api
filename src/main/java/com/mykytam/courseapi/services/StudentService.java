@@ -40,8 +40,11 @@ public class StudentService {
         studentRepository.save(student);
     }
 
-    public void updateStudent(Student student) {
-        studentRepository.save(student);
+    public void updateStudent(StudentCreateDto student, Integer id) {
+        Student old = studentRepository.findById(id).orElseThrow();
+        old.setName(student.getName());
+        old.setSurname(student.getSurname());
+        studentRepository.save(old);
     }
 
     public void deleteStudent(Integer id) {
