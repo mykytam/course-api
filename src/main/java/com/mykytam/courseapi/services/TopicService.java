@@ -30,8 +30,11 @@ public class TopicService {
         topicRepository.save(topic);
     }
 
-    public void updateTopic(Topic topic) {
-        topicRepository.save(topic);
+    public void updateTopic(TopicCreateDto topicDto, Integer id) {
+        Topic old = topicRepository.findById(id).orElseThrow();
+        old.setName(topicDto.getName());
+        old.setDescription(topicDto.getDescription());
+        topicRepository.save(old);
     }
 
     public void deleteTopic(Integer id) {

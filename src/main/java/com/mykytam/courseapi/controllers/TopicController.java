@@ -34,8 +34,8 @@ public class TopicController {
     }
 
     @PutMapping("{id}")
-    public void updateTopic(@RequestBody Topic topic) {
-        topicService.updateTopic(topic);
+    public void updateTopic(@RequestBody @Valid TopicCreateDto topic, @PathVariable Integer id) {
+        topicService.updateTopic(topic, id);
     }
 
     @DeleteMapping("{id}")

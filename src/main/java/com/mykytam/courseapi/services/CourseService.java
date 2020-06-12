@@ -41,8 +41,12 @@ public class CourseService {
         courseRepository.save(course);
     }
 
-    public void updateCourse(Course course) {
-        courseRepository.save(course);
+    public void updateCourse(CourseCreateDto course, Integer id) {
+        Course old = courseRepository.findById(id).orElseThrow();
+        old.setName(course.getName());
+        old.setDescription(course.getDescription());
+        old.setTopic(topicRepository.findById(course.getTopicId()).orElseThrow());
+        courseRepository.save(old);
     }
 
     public void deleteCourse(Integer id) {
