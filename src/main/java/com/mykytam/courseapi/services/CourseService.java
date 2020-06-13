@@ -2,6 +2,7 @@ package com.mykytam.courseapi.services;
 
 import com.mykytam.courseapi.dto.CourseCreateDto;
 import com.mykytam.courseapi.dto.CourseResponseDto;
+import com.mykytam.courseapi.dto.CourseResponseIdDto;
 import com.mykytam.courseapi.models.Course;
 import com.mykytam.courseapi.repositories.CourseRepository;
 import com.mykytam.courseapi.repositories.TopicRepository;
@@ -32,21 +33,25 @@ public class CourseService {
         return conversionService.convert(course, CourseResponseDto.class);
     }
 
-    public void addCourse(CourseCreateDto courseDto) {
+    public CourseResponseIdDto addCourse(CourseCreateDto courseDto) {
         if (!topicRepository.existsById(courseDto.getTopicId())) {
             throw new RuntimeException();
         }
 
         Course course = conversionService.convert(courseDto, Course.class);
         courseRepository.save(course);
+
+        return conversionService.convert(course, CourseResponseIdDto.class);
     }
 
-    public void updateCourse(CourseCreateDto course, Integer id) {
+    public CourseResponseIdDto updateCourse(CourseCreateDto course, Integer id) {
         Course old = courseRepository.findById(id).orElseThrow();
         old.setName(course.getName());
         old.setDescription(course.getDescription());
         old.setTopic(topicRepository.findById(course.getTopicId()).orElseThrow());
         courseRepository.save(old);
+
+        return conversionService.convert(course, CourseResponseIdDto.class);
     }
 
     public void deleteCourse(Integer id) {

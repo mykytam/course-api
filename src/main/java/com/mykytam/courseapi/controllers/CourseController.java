@@ -2,6 +2,7 @@ package com.mykytam.courseapi.controllers;
 
 import com.mykytam.courseapi.dto.CourseCreateDto;
 import com.mykytam.courseapi.dto.CourseResponseDto;
+import com.mykytam.courseapi.dto.CourseResponseIdDto;
 import com.mykytam.courseapi.services.CourseService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -29,13 +30,13 @@ public class CourseController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public void addCourse(@RequestBody @Valid CourseCreateDto course) {
-        courseService.addCourse(course);
+    public CourseResponseIdDto addCourse(@RequestBody @Valid CourseCreateDto course) {
+        return courseService.addCourse(course);
     }
 
     @PutMapping("{id}")
-    public void updateCourse(@RequestBody @Valid CourseCreateDto course, @PathVariable Integer id) {
-        courseService.updateCourse(course, id);
+    public CourseResponseIdDto updateCourse(@RequestBody @Valid CourseCreateDto course, @PathVariable Integer id) {
+        return courseService.updateCourse(course, id);
     }
 
     @DeleteMapping("{id}")
