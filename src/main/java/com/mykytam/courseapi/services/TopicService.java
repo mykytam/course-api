@@ -1,6 +1,6 @@
 package com.mykytam.courseapi.services;
 
-import com.mykytam.courseapi.dto.TopicCreateDto;
+import com.mykytam.courseapi.dto.TopicResponseDto;
 import com.mykytam.courseapi.models.Topic;
 import com.mykytam.courseapi.repositories.TopicRepository;
 import lombok.RequiredArgsConstructor;
@@ -8,6 +8,7 @@ import org.springframework.core.convert.ConversionService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 
 @Service
@@ -17,24 +18,33 @@ public class TopicService {
     private final TopicRepository topicRepository;
     private final ConversionService conversionService;
 
-    public List<Topic> getAllTopics() {
-        return topicRepository.findAll();
+    public List<TopicResponseDto> getAllTopics() {
+        return topicRepository.findAll()
+                .stream()
+                .map(topics -> conversionService.convert(topics, TopicResponseDto.class))
+                .collect(Collectors.toList());
     }
 
-    public Topic getTopic(Integer id) {
-        return topicRepository.findById(id).orElseThrow();
+    public TopicResponseDto getTopic(Integer id) {
+        Topic topic = topicRepository.findById(id).orElseThrow();
+        return conversionService.convert(topic, TopicResponseDto.class);
     }
 
-    public void addTopic(TopicCreateDto topicDto) {
-        Topic topic = conversionService.convert(topicDto, Topic.class);
+    public Topic addTopic(Topic topic) {
         topicRepository.save(topic);
+        return Topic.builder()
+                .id(topic.getId())
+                .build();
     }
 
-    public void updateTopic(TopicCreateDto topicDto, Integer id) {
+    public Topic updateTopic(Topic topic, Integer id) {
         Topic old = topicRepository.findById(id).orElseThrow();
-        old.setName(topicDto.getName());
-        old.setDescription(topicDto.getDescription());
+        old.setName(topic.getName());
+        old.setDescription(topic.getDescription());
         topicRepository.save(old);
+        return Topic.builder()
+                .id(old.getId())
+                .build();
     }
 
     public void deleteTopic(Integer id) {
