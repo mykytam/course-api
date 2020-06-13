@@ -2,6 +2,7 @@ package com.mykytam.courseapi.services;
 
 import com.mykytam.courseapi.dto.StudentCreateDto;
 import com.mykytam.courseapi.dto.StudentResponseDto;
+import com.mykytam.courseapi.dto.StudentResponseIdDto;
 import com.mykytam.courseapi.models.Course;
 import com.mykytam.courseapi.models.Student;
 import com.mykytam.courseapi.repositories.CourseRepository;
@@ -33,18 +34,22 @@ public class StudentService {
         return conversionService.convert(student, StudentResponseDto.class);
     }
 
-    public void addStudent(StudentCreateDto studentDto) {
+    public StudentResponseIdDto addStudent(StudentCreateDto studentDto) {
         Course course = courseRepository.findById(studentDto.getCourseId()).orElseThrow();
         Student student = conversionService.convert(studentDto, Student.class);
         student.addCourse(course);
         studentRepository.save(student);
+
+        return conversionService.convert(student, StudentResponseIdDto.class);
     }
 
-    public void updateStudent(StudentCreateDto student, Integer id) {
+    public StudentResponseIdDto updateStudent(StudentCreateDto student, Integer id) {
         Student old = studentRepository.findById(id).orElseThrow();
         old.setName(student.getName());
         old.setSurname(student.getSurname());
         studentRepository.save(old);
+
+        return conversionService.convert(old, StudentResponseIdDto.class);
     }
 
     public void deleteStudent(Integer id) {
