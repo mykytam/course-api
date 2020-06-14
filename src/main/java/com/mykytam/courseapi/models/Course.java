@@ -1,11 +1,13 @@
 package com.mykytam.courseapi.models;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -13,6 +15,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class Course {
 
     public Course(Integer id) {
@@ -29,6 +32,16 @@ public class Course {
     @ManyToOne
     private Topic topic;
 
-    @ManyToMany
-    private List<Student> students;
+    @ManyToMany(cascade = {
+            CascadeType.PERSIST,
+            CascadeType.MERGE
+    })
+
+    @Builder.Default
+    private List<Student> students = new ArrayList<>();
+
+    public void addStudent(Student student) {
+        students.add(student);
+        student.getCourses().add(this);
+    }
 }
