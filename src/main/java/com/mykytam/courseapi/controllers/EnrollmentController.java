@@ -1,6 +1,6 @@
 package com.mykytam.courseapi.controllers;
 
-import com.mykytam.courseapi.models.Course;
+import com.mykytam.courseapi.dto.CourseResponseIdDto;
 import com.mykytam.courseapi.services.EnrollmentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -17,7 +17,7 @@ public class EnrollmentController {
     private final EnrollmentService enrollmentService;
 
     @PatchMapping
-    public Course addStudent(@PathVariable Integer courseId, @PathVariable Integer studentId) {
+    public CourseResponseIdDto addStudent(@PathVariable Integer courseId, @PathVariable Integer studentId) {
         return enrollmentService.addStudent(courseId, studentId);
     }
 }
