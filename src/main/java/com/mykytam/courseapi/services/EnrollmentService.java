@@ -19,6 +19,7 @@ public class EnrollmentService {
     public CourseResponseIdDto addStudent(Integer courseId, Integer studentId) {
         Course course = courseRepository.findById(courseId).orElseThrow();
         course.addStudent(studentRepository.findById(studentId).orElseThrow());
+        courseRepository.save(course);
 
         return conversionService.convert(course, CourseResponseIdDto.class);
     }

@@ -53,7 +53,8 @@ public class StudentService {
     }
 
     public void deleteStudent(Integer id) {
-        studentRepository.deleteById(id);
+        Student toDelete = studentRepository.findById(id).orElseThrow();
+        studentRepository.deleteInBatch(List.of(toDelete));
     }
 
 }

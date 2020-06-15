@@ -6,8 +6,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 @Data
 @Builder
@@ -23,17 +23,12 @@ public class Student {
     private String name;
     private String surname;
 
-    @ManyToMany(cascade = {
-            CascadeType.PERSIST,
-            CascadeType.MERGE
-    })
-
+    @ManyToMany(mappedBy = "students")
     @Builder.Default
-    private List<Course> courses = new ArrayList<>();
+    private Set<Course> courses = new HashSet<>();
 
     public void addCourse(Course course) {
         courses.add(course);
         course.getStudents().add(this);
     }
-
 }
