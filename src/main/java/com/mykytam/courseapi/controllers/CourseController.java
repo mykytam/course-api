@@ -1,49 +1,47 @@
 package com.mykytam.courseapi.controllers;
 
-import com.mykytam.courseapi.models.Course;
-import com.mykytam.courseapi.models.Topic;
+import com.mykytam.courseapi.dto.CourseCreateDto;
+import com.mykytam.courseapi.dto.CourseResponseDto;
+import com.mykytam.courseapi.dto.CourseResponseIdDto;
 import com.mykytam.courseapi.services.CourseService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
-@RequestMapping("/topics/{topicId}/courses")
+@RequestMapping("courses")
 @RestController
+@RequiredArgsConstructor
 public class CourseController {
 
     private final CourseService courseService;
 
-    public CourseController(CourseService courseService) {
-        this.courseService = courseService;
-    }
-
     @GetMapping
-    public List<Course> getAllCourses(@PathVariable String topicId) {
-        return courseService.getAllCourses(topicId);
+    public List<CourseResponseDto> getAllCourses() {
+        return courseService.getAllCourses();
     }
 
     @GetMapping("{id}")
-    public Course getCourse(@PathVariable String id) {
+    public CourseResponseDto getCourse(@PathVariable Integer id) {
         return courseService.getCourse(id);
     }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public void addCourse(@RequestBody Course course, @PathVariable String topicId) {
-        course.setTopic(new Topic(topicId, "", ""));
-        courseService.addCourse(course);
+    public CourseResponseIdDto addCourse(@RequestBody @Valid CourseCreateDto course) {
+        return courseService.addCourse(course);
     }
 
     @PutMapping("{id}")
-    public void updateCourse(@RequestBody Course course, @PathVariable String topicId, @PathVariable String id) {
-        course.setTopic(new Topic(topicId, "", ""));
-        courseService.updateCourse(course);
+    public CourseResponseIdDto updateCourse(@RequestBody @Valid CourseCreateDto course, @PathVariable Integer id) {
+        return courseService.updateCourse(course, id);
     }
 
     @DeleteMapping("{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deleteCourse(@PathVariable String id) {
+    public void deleteCourse(@PathVariable Integer id) {
         courseService.deleteCourse(id);
     }
 }

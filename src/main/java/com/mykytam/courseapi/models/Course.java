@@ -1,23 +1,21 @@
 package com.mykytam.courseapi.models;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
-import java.util.List;
+import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 @Data
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
 public class Course {
 
     @Id
-    private String id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
 
     private String name;
     private String description;
@@ -25,6 +23,24 @@ public class Course {
     @ManyToOne
     private Topic topic;
 
-    @ManyToMany
-    private List<Student> student;
+    @ManyToMany(cascade = {
+            CascadeType.PERSIST,
+            CascadeType.MERGE
+    })
+    @JoinTable(name = "course_student",
+            joinColumns = @JoinColumn(name = "course_id"),
+            inverseJoinColumns = @JoinColumn(name = "student_id")
+    )
+    @EqualsAndHashCode.Exclude
+    @Builder.Default
+    private Set<Student> students = new HashSet<>();
+
+    public Course(Integer id) {
+        this.id = id;
+    }
+
+    public void addStudent(Student student) {
+        students.add(student);
+        student.getCourses().add(this);
+    }
 }

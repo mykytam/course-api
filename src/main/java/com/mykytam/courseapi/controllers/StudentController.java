@@ -1,41 +1,42 @@
 package com.mykytam.courseapi.controllers;
 
-import com.mykytam.courseapi.models.Student;
+import com.mykytam.courseapi.dto.StudentCreateDto;
+import com.mykytam.courseapi.dto.StudentResponseDto;
+import com.mykytam.courseapi.dto.StudentResponseIdDto;
 import com.mykytam.courseapi.services.StudentService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
-@RequestMapping("/student")
+@RequestMapping("students")
 @RestController
+@RequiredArgsConstructor
 public class StudentController {
 
     private final StudentService studentService;
 
-    public StudentController(StudentService studentService) {
-        this.studentService = studentService;
-    }
-
     @GetMapping
-    public List<Student> getAllStudents() {
+    public List<StudentResponseDto> getAllStudents() {
         return studentService.getAllStudents();
     }
 
     @GetMapping("{id}")
-    public Student getStudent(@PathVariable Integer id) {
+    public StudentResponseDto getStudent(@PathVariable Integer id) {
         return studentService.getStudent(id);
     }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public void addStudent(@RequestBody Student student) {
-        studentService.addStudent(student);
+    public StudentResponseIdDto addStudent(@RequestBody @Valid StudentCreateDto student) {
+        return studentService.addStudent(student);
     }
 
     @PutMapping("{id}")
-    public void updateStudent(@RequestBody Student student) {
-        studentService.updateStudent(student);
+    public StudentResponseIdDto updateStudent(@RequestBody @Valid StudentCreateDto student, @PathVariable Integer id) {
+        return studentService.updateStudent(student, id);
     }
 
     @DeleteMapping("{id}")
