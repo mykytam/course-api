@@ -1,6 +1,5 @@
 package com.mykytam.courseapi.models;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -16,7 +15,6 @@ import javax.persistence.Id;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@JsonInclude(JsonInclude.Include.NON_NULL)
 public class Topic {
 
     @Id

@@ -4,6 +4,7 @@ import com.mykytam.courseapi.dto.CourseCreateDto;
 import com.mykytam.courseapi.dto.CourseResponseDto;
 import com.mykytam.courseapi.dto.CourseResponseIdDto;
 import com.mykytam.courseapi.models.Course;
+import com.mykytam.courseapi.models.Topic;
 import com.mykytam.courseapi.repositories.CourseRepository;
 import com.mykytam.courseapi.repositories.TopicRepository;
 import lombok.RequiredArgsConstructor;
@@ -34,24 +35,21 @@ public class CourseService {
     }
 
     public CourseResponseIdDto addCourse(CourseCreateDto courseDto) {
-        if (!topicRepository.existsById(courseDto.getTopicId())) {
-            throw new RuntimeException();
-        }
-
         Course course = conversionService.convert(courseDto, Course.class);
-        courseRepository.save(course);
 
-        return conversionService.convert(course, CourseResponseIdDto.class);
+        Course saved = courseRepository.save(course);
+        return conversionService.convert(saved, CourseResponseIdDto.class);
     }
 
-    public CourseResponseIdDto updateCourse(CourseCreateDto course, Integer id) {
-        Course old = courseRepository.findById(id).orElseThrow();
-        old.setName(course.getName());
-        old.setDescription(course.getDescription());
-        old.setTopic(topicRepository.findById(course.getTopicId()).orElseThrow());
-        courseRepository.save(old);
+    public CourseResponseIdDto updateCourse(CourseCreateDto courseDto, Integer id) {
+        Course courseToUpdate = courseRepository.findById(id).orElseThrow();
+        courseToUpdate.setName(courseDto.getName());
+        courseToUpdate.setDescription(courseDto.getDescription());
+        Topic topic = topicRepository.findById(courseDto.getTopicId()).orElseThrow();
+        courseToUpdate.setTopic(topic);
 
-        return conversionService.convert(course, CourseResponseIdDto.class);
+        Course saved = courseRepository.save(courseToUpdate);
+        return conversionService.convert(saved, CourseResponseIdDto.class);
     }
 
     public void deleteCourse(Integer id) {

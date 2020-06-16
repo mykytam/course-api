@@ -31,19 +31,22 @@ public class TopicService {
     }
 
     public Topic addTopic(Topic topic) {
-        topicRepository.save(topic);
+        Topic saved = topicRepository.save(topic);
+
         return Topic.builder()
-                .id(topic.getId())
+                .id(saved.getId())
                 .build();
     }
 
     public Topic updateTopic(Topic topic, Integer id) {
-        Topic old = topicRepository.findById(id).orElseThrow();
-        old.setName(topic.getName());
-        old.setDescription(topic.getDescription());
-        topicRepository.save(old);
+        Topic topicToUpdate = topicRepository.findById(id).orElseThrow();
+        topicToUpdate.setName(topic.getName());
+        topicToUpdate.setDescription(topic.getDescription());
+
+        Topic saved = topicRepository.save(topicToUpdate);
+
         return Topic.builder()
-                .id(old.getId())
+                .id(saved.getId())
                 .build();
     }
 

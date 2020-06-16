@@ -38,18 +38,18 @@ public class StudentService {
         Course course = courseRepository.findById(studentDto.getCourseId()).orElseThrow();
         Student student = conversionService.convert(studentDto, Student.class);
         student.addCourse(course);
-        studentRepository.save(student);
 
-        return conversionService.convert(student, StudentResponseIdDto.class);
+        Student saved = studentRepository.save(student);
+        return conversionService.convert(saved, StudentResponseIdDto.class);
     }
 
-    public StudentResponseIdDto updateStudent(StudentCreateDto student, Integer id) {
-        Student old = studentRepository.findById(id).orElseThrow();
-        old.setName(student.getName());
-        old.setSurname(student.getSurname());
-        studentRepository.save(old);
+    public StudentResponseIdDto updateStudent(StudentCreateDto studentDto, Integer id) {
+        Student studentToUpdate = studentRepository.findById(id).orElseThrow();
+        studentToUpdate.setName(studentDto.getName());
+        studentToUpdate.setSurname(studentDto.getSurname());
 
-        return conversionService.convert(old, StudentResponseIdDto.class);
+        Student saved = studentRepository.save(studentToUpdate);
+        return conversionService.convert(saved, StudentResponseIdDto.class);
     }
 
     public void deleteStudent(Integer id) {

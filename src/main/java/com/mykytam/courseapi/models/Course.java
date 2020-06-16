@@ -1,6 +1,5 @@
 package com.mykytam.courseapi.models;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.*;
 
 import javax.persistence.*;
@@ -12,12 +11,7 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@JsonInclude(JsonInclude.Include.NON_NULL)
 public class Course {
-
-    public Course(Integer id) {
-        this.id = id;
-    }
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -40,6 +34,10 @@ public class Course {
     @EqualsAndHashCode.Exclude
     @Builder.Default
     private Set<Student> students = new HashSet<>();
+
+    public Course(Integer id) {
+        this.id = id;
+    }
 
     public void addStudent(Student student) {
         students.add(student);
