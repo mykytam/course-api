@@ -3,6 +3,7 @@ package com.mykytam.courseapi.services;
 import com.mykytam.courseapi.dto.CourseCreateDto;
 import com.mykytam.courseapi.dto.CourseResponseDto;
 import com.mykytam.courseapi.dto.CourseResponseIdDto;
+import com.mykytam.courseapi.exceptions.EntityNotFoundException;
 import com.mykytam.courseapi.models.Course;
 import com.mykytam.courseapi.models.Topic;
 import com.mykytam.courseapi.repositories.CourseRepository;
@@ -30,7 +31,7 @@ public class CourseService {
     }
 
     public CourseResponseDto getCourse(Integer id) {
-        Course course = courseRepository.findById(id).orElseThrow();
+        Course course = courseRepository.findById(id).orElseThrow(() -> new EntityNotFoundException(id));
         return conversionService.convert(course, CourseResponseDto.class);
     }
 
@@ -42,10 +43,10 @@ public class CourseService {
     }
 
     public CourseResponseIdDto updateCourse(CourseCreateDto courseDto, Integer id) {
-        Course courseToUpdate = courseRepository.findById(id).orElseThrow();
+        Course courseToUpdate = courseRepository.findById(id).orElseThrow(() -> new EntityNotFoundException(id));
         courseToUpdate.setName(courseDto.getName());
         courseToUpdate.setDescription(courseDto.getDescription());
-        Topic topic = topicRepository.findById(courseDto.getTopicId()).orElseThrow();
+        Topic topic = topicRepository.findById(courseDto.getTopicId()).orElseThrow(() -> new EntityNotFoundException(courseDto.getTopicId()));
         courseToUpdate.setTopic(topic);
 
         Course saved = courseRepository.save(courseToUpdate);

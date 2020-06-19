@@ -3,6 +3,7 @@ package com.mykytam.courseapi.services;
 import com.mykytam.courseapi.dto.StudentCreateDto;
 import com.mykytam.courseapi.dto.StudentResponseDto;
 import com.mykytam.courseapi.dto.StudentResponseIdDto;
+import com.mykytam.courseapi.exceptions.EntityNotFoundException;
 import com.mykytam.courseapi.models.Course;
 import com.mykytam.courseapi.models.Student;
 import com.mykytam.courseapi.repositories.CourseRepository;
@@ -30,12 +31,12 @@ public class StudentService {
     }
 
     public StudentResponseDto getStudent(Integer id) {
-        Student student = studentRepository.findById(id).orElseThrow();
+        Student student = studentRepository.findById(id).orElseThrow(() -> new EntityNotFoundException(id));
         return conversionService.convert(student, StudentResponseDto.class);
     }
 
     public StudentResponseIdDto addStudent(StudentCreateDto studentDto) {
-        Course course = courseRepository.findById(studentDto.getCourseId()).orElseThrow();
+        Course course = courseRepository.findById(studentDto.getCourseId()).orElseThrow(() -> new EntityNotFoundException(studentDto.getCourseId()));
         Student student = conversionService.convert(studentDto, Student.class);
         student.addCourse(course);
 
@@ -44,7 +45,7 @@ public class StudentService {
     }
 
     public StudentResponseIdDto updateStudent(StudentCreateDto studentDto, Integer id) {
-        Student studentToUpdate = studentRepository.findById(id).orElseThrow();
+        Student studentToUpdate = studentRepository.findById(id).orElseThrow(() -> new EntityNotFoundException(id));
         studentToUpdate.setName(studentDto.getName());
         studentToUpdate.setSurname(studentDto.getSurname());
 
@@ -53,7 +54,7 @@ public class StudentService {
     }
 
     public void deleteStudent(Integer id) {
-        Student toDelete = studentRepository.findById(id).orElseThrow();
+        Student toDelete = studentRepository.findById(id).orElseThrow(() -> new EntityNotFoundException(id));
         studentRepository.deleteInBatch(List.of(toDelete));
     }
 

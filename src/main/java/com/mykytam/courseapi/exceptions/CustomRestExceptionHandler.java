@@ -17,6 +17,8 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 
 import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -42,7 +44,7 @@ public class CustomRestExceptionHandler extends ResponseEntityExceptionHandler {
             errors.add(error.getObjectName() + ": " + error.getDefaultMessage());
         }
 
-        ApiError apiError = new ApiError(HttpStatus.BAD_REQUEST, ex.getLocalizedMessage(), errors);
+        ApiError apiError = new ApiError(HttpStatus.BAD_REQUEST, ex.getLocalizedMessage(), errors, ZonedDateTime.now(ZoneId.of("Z")));
         return handleExceptionInternal(ex, apiError, headers, apiError.getStatus(), request);
     }
 
@@ -54,13 +56,13 @@ public class CustomRestExceptionHandler extends ResponseEntityExceptionHandler {
 
         String error = ex.getParameterName() + " parameter is missing";
 
-        ApiError apiError = new ApiError(HttpStatus.BAD_REQUEST, ex.getLocalizedMessage(), Collections.singletonList(error));
+        ApiError apiError = new ApiError(HttpStatus.BAD_REQUEST, ex.getLocalizedMessage(), Collections.singletonList(error), ZonedDateTime.now(ZoneId.of("Z")));
         return new ResponseEntity<>(apiError, new HttpHeaders(), apiError.getStatus());
     }
 
     // ConstrainViolationException: This exception reports the result of constraint violations
     @ExceptionHandler({ConstraintViolationException.class})
-    public ResponseEntity<Object> handleConstraintViolation(
+    public ResponseEntity<ApiError> handleConstraintViolation(
             ConstraintViolationException ex) {
         List<String> errors = new ArrayList<>();
 
@@ -69,17 +71,25 @@ public class CustomRestExceptionHandler extends ResponseEntityExceptionHandler {
                     violation.getPropertyPath() + ": " + violation.getMessage());
         }
 
-        ApiError apiError = new ApiError(HttpStatus.BAD_REQUEST, ex.getLocalizedMessage(), errors);
+        ApiError apiError = new ApiError(HttpStatus.BAD_REQUEST, ex.getLocalizedMessage(), errors, ZonedDateTime.now(ZoneId.of("Z")));
         return new ResponseEntity<>(apiError, new HttpHeaders(), apiError.getStatus());
     }
 
     // MethodArgumentTypeMismatchException: This exception is thrown when method argument is not the expected type
     @ExceptionHandler({MethodArgumentTypeMismatchException.class})
-    public ResponseEntity<Object> handleMethodArgumentTypeMismatch(
+    public ResponseEntity<ApiError> handleMethodArgumentTypeMismatch(
             MethodArgumentTypeMismatchException ex) {
         String error = ex.getName() + " should be of type " + ex.getRequiredType().getName();
 
-        ApiError apiError = new ApiError(HttpStatus.BAD_REQUEST, ex.getLocalizedMessage(), Collections.singletonList(error));
+        ApiError apiError = new ApiError(HttpStatus.BAD_REQUEST, ex.getLocalizedMessage(), Collections.singletonList(error), ZonedDateTime.now(ZoneId.of("Z")));
+        return new ResponseEntity<>(apiError, new HttpHeaders(), apiError.getStatus());
+    }
+
+    //EntityNotFoundException: Entity with certain id not found in DB
+    @ExceptionHandler({EntityNotFoundException.class})
+    public ResponseEntity<ApiError> entityNotFoundHandler(EntityNotFoundException ex) {
+        String error = ex.getDetails();
+        ApiError apiError = new ApiError(HttpStatus.NOT_FOUND, ex.getLocalizedMessage(), Collections.singletonList(error), ZonedDateTime.now(ZoneId.of("Z")));
         return new ResponseEntity<>(apiError, new HttpHeaders(), apiError.getStatus());
     }
 
