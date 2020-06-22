@@ -5,7 +5,7 @@ import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 
-import java.time.ZonedDateTime;
+import java.time.LocalDateTime;
 
 @Data
 @AllArgsConstructor
@@ -13,5 +13,5 @@ import java.time.ZonedDateTime;
 public class ApiError {
     private HttpStatus status;
     private String message;
-    private ZonedDateTime timestamp;
+    private LocalDateTime timestamp;
 }
