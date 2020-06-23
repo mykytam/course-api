@@ -2,16 +2,20 @@ package com.mykytam.courseapi.exceptions;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.RequiredArgsConstructor;
+import lombok.Getter;
 import org.springframework.http.HttpStatus;
 
 import java.time.LocalDateTime;
 
 @Data
 @AllArgsConstructor
-@RequiredArgsConstructor
+@Getter
 public class ApiError {
     private HttpStatus status;
     private String message;
     private LocalDateTime timestamp;
+
+    public ApiError(HttpStatus httpStatus, String message) {
+        this(httpStatus, message, LocalDateTime.now());
+    }
 }
