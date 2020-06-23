@@ -45,4 +45,11 @@ public class CustomRestExceptionHandler {
         ValidationError validationError = new ValidationError(ex.getBindingResult().getFieldErrors());
         return new ResponseEntity<>(validationError, validationError.getStatus());
     }
+
+    // Missing required argument
+    @ExceptionHandler(MissingRequiredArgumentException.class)
+    public ResponseEntity<ApiError> missingRequiredArgumentHandler(MissingRequiredArgumentException ex) {
+        ApiError apiError = new ApiError(HttpStatus.BAD_REQUEST, ex.getMessage(), LocalDateTime.now());
+        return new ResponseEntity<>(apiError, apiError.getStatus());
+    }
 }
