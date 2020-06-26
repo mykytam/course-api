@@ -1,6 +1,7 @@
 package com.mykytam.courseapi.services;
 
 import com.mykytam.courseapi.dto.TopicResponseDto;
+import com.mykytam.courseapi.exceptions.TopicNotFoundException;
 import com.mykytam.courseapi.models.Topic;
 import com.mykytam.courseapi.repositories.TopicRepository;
 import lombok.RequiredArgsConstructor;
@@ -26,7 +27,7 @@ public class TopicService {
     }
 
     public TopicResponseDto getTopic(Integer id) {
-        Topic topic = topicRepository.findById(id).orElseThrow();
+        Topic topic = topicRepository.findById(id).orElseThrow(() -> new TopicNotFoundException("Topic not found"));
         return conversionService.convert(topic, TopicResponseDto.class);
     }
 
@@ -39,7 +40,7 @@ public class TopicService {
     }
 
     public Topic updateTopic(Topic topic, Integer id) {
-        Topic topicToUpdate = topicRepository.findById(id).orElseThrow();
+        Topic topicToUpdate = topicRepository.findById(id).orElseThrow(() -> new TopicNotFoundException("Topic not found"));
         topicToUpdate.setName(topic.getName());
         topicToUpdate.setDescription(topic.getDescription());
 
